@@ -28,7 +28,7 @@ void* MemoryPool::allocate(){
     {
         lock_guard<mutex> lock(MutexBlock_);
         if(CurSlot_>=LastSlot_){
-            if(allocateNewBlock()){
+            if(!allocateNewBlock()){
                 return nullptr;
             }
         }

@@ -49,13 +49,13 @@ public:
         if(!ptr) return;
         if(size>MAX_SLOT_SIZE) { operator delete(ptr); return; }
         size_t index=(size+7)/SLOT_BASE_SIZE-1;
-        memoryPools_[index]->deallocate(ptr);
+        getMemoryPool((index+1)*SLOT_BASE_SIZE).deallocate(ptr);
     }
     static void* useMemory(size_t size){
         if(size<=0) return nullptr;
         if(size>MAX_SLOT_SIZE) return operator new(size);
         size_t index=(size+7)/SLOT_BASE_SIZE-1;
-        return memoryPools_[index]->allocate();
+        return getMemoryPool((index+1)*SLOT_BASE_SIZE).allocate();
     }
     template<typename T, typename...Args>
     friend T*  newElement(Args&&... args);
